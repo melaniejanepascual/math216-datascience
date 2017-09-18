@@ -1,0 +1,20 @@
+---
+title: "In-Class Markdown"
+author: "MJ"
+date: "September 18, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question 1
+This is my answer to question 1
+
+```{r}
+x <- 5
+y <- 7
+plot(x,y)
+```
+
