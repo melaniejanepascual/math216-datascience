@@ -1,3 +1,4 @@
+
 ## Load in library of ggplot2 functions
 library(ggplot2)
 
@@ -16,3 +17,7 @@ ggplot(data=diamonds, mapping=aes(x=carat, y=price)) + geom_point(color="red")
 
 # points based on color
 ggplot(data=diamonds, mapping=aes(x=carat, y=price)) + geom_point(aes(color=color))
+
+# change size of each point to measure of the volume
+ggplot(data=diamonds, mapping=aes(x=carat, y=price)) + 
+  geom_point(aes(color=color, size=depth))
