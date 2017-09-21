@@ -1,0 +1,34 @@
+---
+title: "MATH216 HW 1"
+author: "MJ Pascual"
+date: "September 20, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# set up environment, declare variables, read data
+library(ggplot2)
+
+plants <- read.csv(file = "Plants.csv")
+plants$Species <- factor(plants$Species)
+plants$Fert <- factor(plants$Fert)
+```
+
+
+## Question 1
+```{r}
+table(plants$Species, plants$Fert)
+```
+
+Based on the table, the experimental design is reasonable becase there is an almost equal amount of the each fertilizer with each species
+
+## Question 2
+
+```{r}
+ggplot(data = plants, mapping = aes(x = Species, y = BiomassT2)) + 
+  geom_boxplot()
+```
