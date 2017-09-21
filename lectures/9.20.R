@@ -15,9 +15,7 @@ ggplot(data = diamonds, mapping = aes(carat, price)) +
   geom_point(aes(color=color, size = depth)) +
   ggtitle("Roberts Graph") + xlab("CARAT") + ylab("PRICE") +
   scale_x_continuous(limits=c(0,10), breaks = c(0,2,4,6,8,10)) +
-  scale_y_continuous(limits=c(0,10), breaks = c(0,2,4,6,8,10))
-## Warning message:
-## Removed 53940 rows containing missing values (geom_point). 
+  scale_y_continuous(limits=c(0,100000), breaks = c(0,2,4,6,8,10))
 
 
 ## Make new plot
@@ -40,3 +38,13 @@ j.diamonds <- subset(diamonds, color == "J")
 ggplot(diamonds, mapping = aes(price)) +
   geom_histogram(data = d.diamonds, aes(price), fill ="red", alpha = .3) +
   geom_histogram(data = j.diamonds, aes(price), fill ="blue", alpha = .3)
+
+
+
+## Facet a graph - facet_wrap
+ggplot(diamonds) + geom_point(aes(x = carat, y = price, color = color )) +
+  facet_wrap(~color)
+
+## Facet a graph - facet_grid
+ggplot(diamonds) + geom_point(aes(x = carat, y = price)) +
+  facet_grid(color-cut)
