@@ -36,7 +36,7 @@ ggplot(data = plants, mapping = aes(x = BiomassT1, y = BiomassT2)) +
   geom_point()
 
 # Question 7
-ggplot(data = plants, mapping = aes(x = BiomassT2, y = BiomassT1)) + 
+ggplot(data = plants, mapping = aes(x = BiomassT1, y = BiomassT2)) + 
   geom_point(aes(color = Fert, size = Species))
 
 # Question 8

@@ -55,4 +55,45 @@ ggplot(data = plants, mapping = aes(x = Fert, y = BiomassT2)) +
   geom_boxplot()
 ```
 
-The graph is showing that there is a significant difference between the type of fertilizer used and the final biomass.
+The graph is showing that there is a significant difference between the type of fertilizer used and the final biomass. In rising order of final biomass, it goes from C to B to A. B has more variation in comparison to A and B. A and C does have some outliers, but none important enough.
+
+## Question 5
+```{r}
+ggplot(data = plants, mapping = aes(x = Species , y = BiomassT2)) + 
+  geom_boxplot(aes(fill = Fert))
+```
+
+Regardless of the species, the order of fertilizer remained the same for all 3 spexxies. However, the variations were different between the different species. 
+
+## Question 6
+
+```{r}
+ggplot(data = plants, mapping = aes(x = BiomassT1, y = BiomassT2)) + 
+  geom_point()
+```
+
+There is a linear relationship between the starting biomass and the final biomass. If the starting biomass (BiomassT1) is high, then the final biomass will also be high and vice versa for low. 
+
+## Question 7 - what's strange and why?
+
+```{r}
+ggplot(data = plants, mapping = aes(x = BiomassT1, y = BiomassT2)) + 
+  geom_point(aes(color = Fert, size = Species))
+```
+
+The linear relationship is caused by a specic order. The order of growth is by fertilizer where C caused the lowest growth, then B, and A resulted in the highest growth. 
+
+## Question 8
+
+```{r}
+ggplot(data = plants, mapping = aes(x = Row, y = Column)) +
+  geom_point(aes(size = BiomassT2))
+```
+
+
+## Question 9
+
+```{r}
+ggplot(data = plants, mapping = aes(x = Row, y = Column)) +
+  geom_tile(aes(fill = BiomassT2))
+```
