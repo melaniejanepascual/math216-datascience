@@ -12,8 +12,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 # set up environment, declare variables, read data
 library(ggplot2)
+library(tidyverse)
 
 plants <- read.csv(file = "Plants.csv")
+## plants <- filter(plants, Row > 1)
 plants$Species <- factor(plants$Species)
 plants$Fert <- factor(plants$Fert)
 ```
@@ -24,7 +26,7 @@ plants$Fert <- factor(plants$Fert)
 table(plants$Species, plants$Fert)
 ```
 
-Based on the table, the experimental design is reasonable becase there is an almost equal amount of the each fertilizer with each species
+Based on the table, the experimental design is reasonable becase there is an almost equal amount of the each fertilizer with each species.
 
 ## Question 2
 
@@ -36,16 +38,16 @@ ggplot(data = plants, mapping = aes(x = Species, y = BiomassT2)) +
 While the medians are similar, species 1 has a smaller variation than species 2 and 3. Species 3 has the smallest biomass while species 2 has the largest biomass. 
 
 
-## Question 3: GET HELP
+## Question 3
 
 ```{r}
-biomass.plant1 <- subset(plants, Species == "1")
-biomass.plant2<- subset(plants, Species == "2")
-biomass.plant3 <- subset(plants, Species == "3")
+plant1 <- subset(plants, Species == "1")
+plant2<- subset(plants, Species == "2")
+plant3 <- subset(plants, Species == "3")
 
-mean(biomass.plant1)
-mean(biomass.plant2)
-mean(biomass.plant3)
+mean(plant1$BiomassT2)
+mean(plant2$BiomassT2)
+mean(plant3$BiomassT2)
 ```
 
 ## Question 4
@@ -74,14 +76,14 @@ ggplot(data = plants, mapping = aes(x = BiomassT1, y = BiomassT2)) +
 
 There is a linear relationship between the starting biomass and the final biomass. If the starting biomass (BiomassT1) is high, then the final biomass will also be high and vice versa for low. 
 
-## Question 7 - what's strange and why?
+## Question 7
 
 ```{r}
 ggplot(data = plants, mapping = aes(x = BiomassT1, y = BiomassT2)) + 
   geom_point(aes(color = Fert, size = Species))
 ```
 
-The linear relationship is caused by a specic order. The order of growth is by fertilizer where C caused the lowest growth, then B, and A resulted in the highest growth. 
+The linear relationship is caused by a specic order. The order of growth is by fertilizer where C caused the lowest growth, then B, and A resulted in the highest growth. There are outliers under Biomass 80 and so I'd take out row 1.
 
 ## Question 8
 
@@ -96,4 +98,18 @@ ggplot(data = plants, mapping = aes(x = Row, y = Column)) +
 ```{r}
 ggplot(data = plants, mapping = aes(x = Row, y = Column)) +
   geom_tile(aes(fill = BiomassT2))
+```
+
+## Question 10 
+```{r}
+
+```
+
+Solution: remove row 1 because it's causing most of the outliers. 
+
+## Question 11
+```{r}
+biomassT1.avg <- mean(plants$BiomassT1)
+biomassT2.avg <- mean(plants$BiomassT2)
+
 ```

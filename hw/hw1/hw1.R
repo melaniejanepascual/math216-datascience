@@ -20,8 +20,11 @@ biomass.plant2<- subset(plants, Species == "2")
 biomass.plant3 <- subset(plants, Species == "3")
 
 mean(table(species1, plants$BiomassT2))
-
 table(plants$Species == "1", plants$BiomassT2)
+#make a box plot, and the way you can separate the species is by using factor(Species)
+ggplot(data = plants, mapping = aes(x = Species, y = BiomassT2)) + 
+  geom_boxplot()
+
 # Question 4: Compare final biomass for each fertilizer
 ggplot(data = plants, mapping = aes(x = Fert, y = BiomassT2)) + 
   geom_boxplot()
@@ -48,6 +51,8 @@ ggplot(data = plants, mapping = aes(x = Row, y = Column)) +
   geom_tile(aes(fill = BiomassT2))
 
 # Question 10
+
+
 # Question 11
 biomassT1.avg <- mean(plants$BiomassT1)
 biomassT2.avg <- mean(plants$BiomassT2)

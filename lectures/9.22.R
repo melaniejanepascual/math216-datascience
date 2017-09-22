@@ -17,6 +17,20 @@ select(diamonds, ends_with("c"))
 
 ## Lets say we want only the diamonds >$10000 in price.
 ## Then, we want to examine their colors only.
-
 expensive.diamonds <- filter(diamonds, price > 10000)
 select(expensive.diamonds, color, price)
+
+x <- c(1,2,3,4,5)
+
+x %>% mean() 
+mean(x)
+
+filter(diamonds, price > 10000)
+diamonds %>% filter(price > 10000)
+
+
+## sorts ascending
+diamonds %>% 
+  filter(price > 10000) %>%
+  select(color, price, carat, depth) %>%
+  arrange(carat, depth)
