@@ -32,3 +32,27 @@ Based on the table, the experimental design is reasonable becase there is an alm
 ggplot(data = plants, mapping = aes(x = Species, y = BiomassT2)) + 
   geom_boxplot()
 ```
+
+While the medians are similar, species 1 has a smaller variation than species 2 and 3. Species 3 has the smallest biomass while species 2 has the largest biomass. 
+
+
+## Question 3: GET HELP
+
+```{r}
+biomass.plant1 <- subset(plants, Species == "1")
+biomass.plant2<- subset(plants, Species == "2")
+biomass.plant3 <- subset(plants, Species == "3")
+
+mean(biomass.plant1)
+mean(biomass.plant2)
+mean(biomass.plant3)
+```
+
+## Question 4
+
+```{r}
+ggplot(data = plants, mapping = aes(x = Fert, y = BiomassT2)) + 
+  geom_boxplot()
+```
+
+The graph is showing that there is a significant difference between the type of fertilizer used and the final biomass.

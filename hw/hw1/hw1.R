@@ -14,8 +14,14 @@ ggplot(data = plants, mapping = aes(x = Species, y = BiomassT2)) +
   geom_boxplot()
 
 # Question 3: Compare the mean final biomass of each species
-mean()
 
+species1 <- subset(plants, Species == "1")
+biomass.plant2<- subset(plants, Species == "2")
+biomass.plant3 <- subset(plants, Species == "3")
+
+mean(table(species1, plants$BiomassT2))
+
+table(plants$Species == "1", plants$BiomassT2)
 # Question 4: Compare final biomass for each fertilizer
 ggplot(data = plants, mapping = aes(x = Fert, y = BiomassT2)) + 
   geom_boxplot()
