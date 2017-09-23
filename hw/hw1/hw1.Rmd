@@ -15,7 +15,7 @@ library(ggplot2)
 library(tidyverse)
 
 plants <- read.csv(file = "Plants.csv")
-## plants <- filter(plants, Row > 1)
+plants <- filter(plants, Row > 1)
 plants$Species <- factor(plants$Species)
 plants$Fert <- factor(plants$Fert)
 ```
@@ -26,7 +26,7 @@ plants$Fert <- factor(plants$Fert)
 table(plants$Species, plants$Fert)
 ```
 
-Based on the table, the experimental design is reasonable becase there is an almost equal amount of the each fertilizer with each species.
+Based on the table, the experimental design is reasonable becase there is an almost equal amount of the each fertilizer for each species.
 
 ## Question 2
 
@@ -35,7 +35,7 @@ ggplot(data = plants, mapping = aes(x = Species, y = BiomassT2)) +
   geom_boxplot()
 ```
 
-While the medians are similar, species 1 has a smaller variation than species 2 and 3. Species 3 has the smallest biomass while species 2 has the largest biomass. 
+In the bigger picture, the biomass ranged from 200 to 300 for all 3 different species. However, species 1 had a smaller variation and some minor outliers, while species 2 and 3 had a larger variation for final biomass. The medians are similar among all 3 species. Based on the boxplot, there doesn't seem to be a huge difference between the 3 species.
 
 
 ## Question 3
@@ -50,6 +50,7 @@ mean(plant2$BiomassT2)
 mean(plant3$BiomassT2)
 ```
 
+The means of each final biomass for every species supports the claim that there isn't a huge difference in the final biomass of each species.
 ## Question 4
 
 ```{r}
@@ -57,7 +58,7 @@ ggplot(data = plants, mapping = aes(x = Fert, y = BiomassT2)) +
   geom_boxplot()
 ```
 
-The graph is showing that there is a significant difference between the type of fertilizer used and the final biomass. In rising order of final biomass, it goes from C to B to A. B has more variation in comparison to A and B. A and C does have some outliers, but none important enough.
+The graph is showing that there is a difference between the type of fertilizer used and the final biomass. By looking at the variations of every fertilizer, Fertilizer A led to a higher final biomass, while Fertilizer C led to a lower final biomass. Additionally, the medians of every fertilizer are significantly different. Both fertilizer A and fertilizer C show that there are outliers as well. 
 
 ## Question 5
 ```{r}
@@ -65,7 +66,7 @@ ggplot(data = plants, mapping = aes(x = Species , y = BiomassT2)) +
   geom_boxplot(aes(fill = Fert))
 ```
 
-Regardless of the species, the order of fertilizer remained the same for all 3 spexxies. However, the variations were different between the different species. 
+The variations are different between each fertilizer-species pair.The graph supports the claim that fertilizer A leads to a higher final biomass regardless of the species. An interesting note is that the lowest biomass for species 2 and 3 used Fertilizer C, but fertilizer B was lower for species 1.
 
 ## Question 6
 
@@ -74,7 +75,7 @@ ggplot(data = plants, mapping = aes(x = BiomassT1, y = BiomassT2)) +
   geom_point()
 ```
 
-There is a linear relationship between the starting biomass and the final biomass. If the starting biomass (BiomassT1) is high, then the final biomass will also be high and vice versa for low. 
+There is a linear relationship between the starting biomass and the final biomass. If the starting biomass (BiomassT1) is high, then the final biomass will also be high and vice versa for low. The relationship says that as starting biomass increases, then the final biomass also increases.
 
 ## Question 7
 
@@ -83,7 +84,7 @@ ggplot(data = plants, mapping = aes(x = BiomassT1, y = BiomassT2)) +
   geom_point(aes(color = Fert, size = Species))
 ```
 
-The linear relationship is caused by a specic order. The order of growth is by fertilizer where C caused the lowest growth, then B, and A resulted in the highest growth. There are outliers under Biomass 80 and so I'd take out row 1.
+For the most part, the graph supports the claim that there is a linear relationship between BiomassT1 and BiomassT2 and the order of fertilizer (C -> B -> A). Previous data showed that there are outliers and this plot shows that the outliers are the ones with extremely low biomass, regardless of the fertilizer and species.
 
 ## Question 8
 
@@ -91,7 +92,7 @@ The linear relationship is caused by a specic order. The order of growth is by f
 ggplot(data = plants, mapping = aes(x = Row, y = Column)) +
   geom_point(aes(size = BiomassT2))
 ```
-
+Plants in row 1 have a significantly lower biomass than other rows and columns. 
 
 ## Question 9
 
@@ -99,17 +100,24 @@ ggplot(data = plants, mapping = aes(x = Row, y = Column)) +
 ggplot(data = plants, mapping = aes(x = Row, y = Column)) +
   geom_tile(aes(fill = BiomassT2))
 ```
+The heatmap supports the previous questions claim.
 
 ## Question 10 
 ```{r}
 
 ```
 
-Solution: remove row 1 because it's causing most of the outliers. 
+Remove values in row 1 (solution is where I set up the objects on the top)
 
 ## Question 11
 ```{r}
-biomassT1.avg <- mean(plants$BiomassT1)
 biomassT2.avg <- mean(plants$BiomassT2)
+ggplot(data = plants, mapping = aes(x = biomassT2.avg, y = BiomassT2)) + 
+  geom_boxplot()
 
 ```
+The effects of fertilizer, species, and position had no significant change if the average biomass is used as a variable rather than the final biomass.
+
+## Question 12
+
+Based on the data analysis, hydrangeas produce the largest final biomass if Fertilizer A is used. There wasn't a large difference between the species, only with the fertilizer. The given data also showed that some of the hydrangeas had very low biomasses, regardless of the species or fertilizer. 
