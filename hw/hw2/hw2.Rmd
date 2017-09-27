@@ -1,0 +1,106 @@
+---
+title: "MATH 216 HW 2"
+author: "MJ Pascual"
+date: "September 26, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+
+taboo <- read.csv("Taboo.csv")
+
+```
+
+## Question 1
+ 
+```{r}
+taboo %>%
+  group_by(Gender) %>%
+  summarize(avg.sex = mean(Sex)) 
+```
+
+## Question 2
+```{r}
+
+```
+## Question 3
+```{r}
+ggplot(data = taboo, mapping = aes(x = Sex, y = Happiness)) + geom_point()
+```
+
+## Question 4
+```{r}
+## Happiest
+happy.taboo <- arrange(taboo, Happiness)
+happiest.female <- filter(happy.taboo, Gender == "F")
+happiest.male <- filter(happy.taboo, Gender == "M")
+
+# Saddest
+sad.taboo <- arrange(taboo, Happiness)
+saddest.female <- filter(sad.taboo, Gender == "F")
+saddest.male <- filter(sad.taboo, Gender == "M")
+
+taboo %>%
+  filter(between(Gender, M, F)) %>% 
+  arrange(Happiness) %>%
+  ggplot(mapping = aes(Sex, Happiness)) + geom_point() + 
+  geom_point(data = happiest.female, color = "green", size = 2) +
+  geom_point(data = happiest.male, color = "green", size = 2) +
+  geom_point(data = saddest.female, color = "red", size = 2) +
+  geom_point(data = saddest.male, color = "red", size = 2)
+
+```
+
+
+## Question 5
+
+## Question 6
+```{r}
+ggplot(data = taboo, mapping = aes(x = Gender, y = Marijuana)) + geom_point()
+
+female <- filter(taboo, Gender == "F")
+male <- filter(taboo, Gender == "M")
+
+taboo %>% 
+  ggplot(mapping = aes(Marijuana, Gender)) + geom_point() +
+    geom_point(data = female, color = "blue", size = 2) +
+    geom_point(data = male, color = "green", size = 2)
+
+taboo %>% 
+  ggplot(mapping = aes(Gender, Cigarette)) + geom_point() +
+    geom_point(data = female, color = "blue", size = 2) +
+    geom_point(data = male, color = "green", size = 2)
+
+```
+
+## Question 7
+Create a scatter plot of salary versus happiness,
+and color the points based on the aforementioned three categories.
+```{r}
+no.alc <-  
+  taboo %>%
+    filter(Alcohol == 0)
+few.alc <- 
+  taboo %>% 
+    filter(Alcohol >= 1 & Alcohol <= 3)
+lots.alc <- 
+  taboo %>%
+    filter(Alcohol > 3)
+
+taboo %>% 
+  ggplot(mapping = aes(Salary, Happiness)) + geom_point() + 
+    geom_point(data = no.alc, color = "blue", size = 2) +
+    geom_point(data = few.alc, color = "green", size = 2) +
+    geom_point(data = lots.alc, color = "purple", size = 2)
+```
+
+
+## Question 8
+
+
