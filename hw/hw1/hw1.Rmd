@@ -111,9 +111,11 @@ Remove values in row 1 (solution is where I set up the objects on the top)
 
 ## Question 11
 ```{r}
-biomassT2.avg <- mean(plants$BiomassT2)
-ggplot(data = plants, mapping = aes(x = biomassT2.avg, y = BiomassT2)) + 
-  geom_boxplot()
+plants <- mutate(plants, Avg = (BiomassT1+BiomassT2)/2)
+
+ggplot(plants) + geom_boxplot(mapping = aes(Fert,BiomassT2,fill=factor(Species))) + geom_boxplot(mapping = aes(Fert, Avg, fill=factor(Species)))
+
+ggplot(plants) + geom_boxplot(mapping = aes(Fert,BiomassT2),fill="blue",alpha=.4) + geom_boxplot(mapping = aes(Fert, Avg),fill="red",alpha=.4)
 
 ```
 The effects of fertilizer, species, and position had no significant change if the average biomass is used as a variable rather than the final biomass.
