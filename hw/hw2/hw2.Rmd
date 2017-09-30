@@ -12,9 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(tidyverse)
 library(ggplot2)
-
 taboo <- read.csv("Taboo.csv")
-
 ```
 
 ## Question 1
@@ -25,63 +23,85 @@ taboo %>%
   summarize(avg.sex = mean(Sex)) 
 ```
 
+The mean doesn't show any significant difference between genders.
+
 ## Question 2
 ```{r}
+males <- subset(taboo, Gender == "M")
+females <- subset(taboo, Gender == "F")
 
+ggplot(taboo, mapping = aes(Sex)) +
+  geom_histogram(data = males, aes(Sex), fill ="red", alpha = .3) 
+
+  ggplot(taboo, mapping = aes(Sex)) +
+  geom_histogram(data = females, aes(Sex), fill ="blue", alpha = .3)
 ```
+
+The distributions of both graphs show that there are more men who don't have sex or have sex at least once than women who don't have sex. The female variable is more spread out in its distribution. 
+
 ## Question 3
 ```{r}
-ggplot(data = taboo, mapping = aes(x = Sex, y = Happiness)) + geom_point()
+males <- subset(taboo, Gender == "M")
+females <- subset(taboo, Gender == "F")
+
+ggplot(data = taboo, mapping = aes(x = Happiness, y = Sex)) + geom_point() 
 ```
+
+Regardless of the amount of times someone has sex, a person is >40 in happiness. A slight trend is that the more sex they have, the happier they are (a linear increase).
 
 ## Question 4
-```{r}
-## Happiest
-happy.taboo <- arrange(taboo, Happiness)
-happiest.female <- filter(happy.taboo, Gender == "F")
-happiest.male <- filter(happy.taboo, Gender == "M")
 
-# Saddest
-sad.taboo <- arrange(taboo, Happiness)
-saddest.female <- filter(sad.taboo, Gender == "F")
-saddest.male <- filter(sad.taboo, Gender == "M")
+```{r}
+happiest.female <- filter(taboo, ID == 51)
+saddest.female <- filter(taboo, ID == 27)
+happiest.male <- filter(taboo, ID == 41)
+saddest.male <- filter(taboo, ID == 33)
 
 taboo %>%
-  filter(between(Gender, M, F)) %>% 
+  group_by(Gender) %>%
   arrange(Happiness) %>%
-  ggplot(mapping = aes(Sex, Happiness)) + geom_point() + 
-  geom_point(data = happiest.female, color = "green", size = 2) +
-  geom_point(data = happiest.male, color = "green", size = 2) +
-  geom_point(data = saddest.female, color = "red", size = 2) +
-  geom_point(data = saddest.male, color = "red", size = 2)
+  ggplot(mapping = aes(Happiness, Sex)) + geom_point() + 
+  geom_point(data = happiest.female, color = "green", size = 7) +
+  geom_point(data = happiest.male, color = "green", size = 4) +
+  geom_point(data = saddest.female, color = "red", size = 7) +
+  geom_point(data = saddest.male, color = "red", size = 4) +
+  geom_point(data = males, color = "yellow") +
+  geom_point(data = females, color = "blue")
 
 ```
 
+The main trend is that happiness is correlated with sex, especially for men compared to the women.There may be additional
 
 ## Question 5
-
-## Question 6
 ```{r}
-ggplot(data = taboo, mapping = aes(x = Gender, y = Marijuana)) + geom_point()
-
-female <- filter(taboo, Gender == "F")
-male <- filter(taboo, Gender == "M")
-
-taboo %>% 
-  ggplot(mapping = aes(Marijuana, Gender)) + geom_point() +
-    geom_point(data = female, color = "blue", size = 2) +
-    geom_point(data = male, color = "green", size = 2)
-
-taboo %>% 
-  ggplot(mapping = aes(Gender, Cigarette)) + geom_point() +
-    geom_point(data = female, color = "blue", size = 2) +
-    geom_point(data = male, color = "green", size = 2)
-
+taboo %>%
+ggplot(aes(x = Happiness, y = Sex)) + geom_point() +
+   geom_point(data = happiest.female, color = "green", size = 7) +
+  geom_point(data = happiest.male, color = "green", size = 4) +
+  geom_point(data = saddest.female, color = "red", size = 7) +
+  geom_point(data = saddest.male, color = "red", size = 4) +
+  facet_wrap(~Gender)
 ```
 
+I prefer 5 because it allows me to see similarities, but more importantly differences between females and males more clearly than number 4.
+
+## Question 6
+
+```{r}
+taboo %>%
+  group_by(Gender) %>%
+  ggplot(mapping = aes(x = Gender, y = Marijuana)) + 
+  geom_bar(stat = "identity")
+
+taboo %>%
+  group_by(Gender) %>%
+  ggplot(mapping = aes(x = Gender, y = Cigarette)) + 
+  geom_bar(stat = "identity")
+```
+There is no clear evidence between differences in cigarette and weed consumption by gender, they're almost the same even when looking at the mean.
+
+
 ## Question 7
-Create a scatter plot of salary versus happiness,
-and color the points based on the aforementioned three categories.
 ```{r}
 no.alc <-  
   taboo %>%
@@ -94,13 +114,40 @@ lots.alc <-
     filter(Alcohol > 3)
 
 taboo %>% 
-  ggplot(mapping = aes(Salary, Happiness)) + geom_point() + 
+  ggplot(mapping = aes(Happiness, Salary)) + geom_point() + 
     geom_point(data = no.alc, color = "blue", size = 2) +
     geom_point(data = few.alc, color = "green", size = 2) +
     geom_point(data = lots.alc, color = "purple", size = 2)
 ```
 
+People who didn't consume alcohol didn't make as much money as other people. The happiness of people who drink a lot of alcohol is more distributed than those who drink a little or none. An interesting outlier is the group of people who are rich and drink a lot of alcohol, but are extremely low in terms of happiness.
 
 ## Question 8
 
+```{r}
+weed.cig <-  
+  taboo %>%
+    filter(Cigarette == 1 & Marijuana == 1)
 
+cig <- 
+  taboo %>% 
+    filter(Cigarette == 1 & Marijuana == 0)
+
+weed <- 
+  taboo %>%
+    filter(Marijuana == 1 & Cigarette == 0)
+
+taboo %>% 
+  ggplot(mapping = aes(Happiness, Salary)) + geom_point() + 
+    geom_point(data = weed, color = "yellow", size = 2) +
+    geom_point(data = cig, color = "blue", size = 2) +
+    geom_point(data = weed.cig, color = "green", size = 2) 
+```
+
+The graph created wanted to look at the relationship of drug consumption and it's relationship with happiness and salary. Drug consumption looks at weed and cigarettes. Interesting finds are:
+
+-Most people smoke cigarettes regardless of their salary, while people that smoke weed are more wealthier. Similarly, most people who smoke cigarettes and marijuana are also wealthy.
+-In looking at happiness, there is an interesting find that the most happiest people are either those who don't consume drugs or those that consume both.
+
+## General 
+Men and women have slightly differences in how much sex they have per week based on distribution. A common trend was that there is a relationship between how much sex someone has and their happiness, especially with males. The differences between men and women in terms of happiness can be explained with the fact that a woman's happiness is more emotional than physical. Additionally, there was no differences between men and women in terms of drug consumption, however there was a relationship found between drug consumption and salary. Alcohol consumption, salary, and happiness were all related as well, but no general trend was found for specific variables in terms of how much one drank. 
