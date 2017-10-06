@@ -40,7 +40,6 @@ ggplot(diamonds, mapping = aes(price)) +
   geom_histogram(data = j.diamonds, aes(price), fill ="blue", alpha = .3)
 
 
-
 ## Facet a graph - facet_wrap
 ggplot(diamonds) + geom_point(aes(x = carat, y = price, color = color )) +
   facet_wrap(~color)

@@ -26,7 +26,6 @@ females <- taboo %>%
   select(Marijuana)
 
 prop.test(x = c(15,14), n = c(52,48))
-
 ## prop 1 = men, prop 2 = women
 
 
