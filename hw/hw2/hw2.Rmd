@@ -97,6 +97,8 @@ taboo %>%
   group_by(Gender) %>%
   ggplot(mapping = aes(x = Gender, y = Cigarette)) + 
   geom_bar(stat = "identity")
+
+
 ```
 There is no clear evidence between differences in cigarette and weed consumption by gender, they're almost the same even when looking at the mean.
 
