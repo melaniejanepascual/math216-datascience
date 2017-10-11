@@ -1,0 +1,117 @@
+---
+title: "Data Science Test 1"
+author: "MJ"
+date: "October 9, 2017"
+output: html_document
+---
+
+## Data Science Test 1
+
+```{r}
+library(nycflights13)
+library(tidyverse)
+library(ggplot2)
+```
+
+## Question 1
+```{r}
+## use a random number to randomize which title the scatter plot will get 
+random.num <- runif(1, min=0, max=100)
+
+scatter.it <- function(vector6, vector7) {
+  ## combine both so that it makes a data set 
+  combined <- c(vector6, vector7)
+  if(random.num >= 50) {
+    ggplot(combined, mapping = aes(vector6, vector7)) +
+      geom_point() +
+      ggtitle("Your data are beautiful!") 
+  } else {
+    ggplot(combined, mapping = aes(vector6, vector7)) +
+      geom_point() +
+      ggtitle("Your data are hideous!")
+  }
+}
+
+```
+
+## Question 2
+
+```{r}
+
+early.flights <- filter(flights, sched_dep_time > dep_time)
+late.flights <- filter(flights, dep_delay <= 60)
+really.late.flights <- filter(flights, dep_delay > 60)
+
+flights %>%
+  filter(origin == "BOS" | dest == "BOS") %>% ## get information about BOS 
+  ggplot(mapping = aes(arr_time, dep_time)) +
+  geom_point(data = early.flights, color = "green") +
+  geom_point(data = late.flights, color = "blue") +
+  geom_point(data = really.late.flights, color = "purple")
+
+
+
+```
+
+
+## Question 3
+
+```{r}
+flights %>%
+  group_by(month) %>%
+  summarize(mean(dep_delay, na.rm = TRUE))
+
+```
+
+July has the highest average departure delay, this can be due to the fact that it's the middle of summer and a lot of people tend to travel at the time because of the weather and vacations (both of parents and kids).
+
+## Question 4
+
+```{r}
+flights %>%
+  ggplot(mapping = aes(month)) +
+  geom_histogram(aes(dep_delay), fill ="red") +
+  scale_x_continuous(limits = c(0,10))
+
+```
+
+
+## Question 5
+
+```{r}
+delta.flights <- 
+  flights %>%
+    filter(carrier == "DL")
+
+## finding the successes with the departure delay being 5 minutes or less
+delta.5.flights <- 
+  delta.flights %>%
+    filter(dep_delay >= 5)
+
+mean(delta.flights$dep_delay, na.rm = TRUE)
+## Based on data, average delay is 9 minutes
+```
+
+Hypothesis:
+H0: p = 5, H1: p != 5
+
+Test statistic:
+Binomial Test
+
+```{r}
+## number of successes
+hist(rbinom(10000, , 5))
+
+#convert to proportion of successes
+hist(rbinom(10000, 14, .75)/14)
+
+# binom.test
+binom.test(10, 14, .75)
+
+## created two tail
+pbinom(10, 14, .75)*2 
+
+pnorm(.71, mean=.75, sd = sqrt(.75*.25/14))*2
+
+```
+
