@@ -45,7 +45,29 @@ library(ggplot2)
 
 ggplot(flights, aes(dep_delay)) + geom_histogram()
 
+##n is number of rows
 flights %>%
   filter(carrier == "DL") %>%
-  summarize(mean.delay = mean(dep_delay, na.rm = TRUE))
+  summarize(mean.delay = mean(dep_delay, na.rm = TRUE, n=n(), sd=sd(dep_delay, na.rm = TRUE)))
+
+39.74/sqrt(48110)
+pnorm(9.26, 5, .18, lower.tail=FALSE)
+
+
+
+delta.delays <- flights %>%
+    filter(carrier == "DL") %>%
+    select(dep_delay)
+
+delta.delays <- as.data.frame(delta.delays)
+t.test(delta.delays, mu=5)
+
+## assuming the null hypothesis (mu=5) is true, there is a MINISCULE chance that you
+## would observe 9.26 as the mean
+
+times
+
+
+
+
 
