@@ -1,0 +1,121 @@
+---
+title: "Mini-Lab"
+author: "Josh Yuan, Tina Chen, MJ Pascual, & Fiona Mohammed"
+date: "October 20, 2017"
+output: html_document
+---
+library(ggplot2)
+
+
+## Skittles
+
+One-Proportion Test
+
+Claim: Skittles colors are represented equally
+
+1. Assumptions: Random sample
+                np >= 10 and n(1-p) >= 10
+                102(0.20) > 10, 102(1-0.20) >= 10
+                20.4 > 10, 81.6 >= 10
+                
+2. Hypotheses: Ho: p  = 0.20
+               Ha: p != 0.20
+               
+```{r}
+#Purple
+binom.test(18, 102, 0.20)
+
+#Green
+binom.test(20, 102, 0.20)
+
+#Red
+binom.test(19, 102, 0.20)
+
+#Yellow
+binom.test(20, 102, 0.20)
+
+#Orange
+binom.test(25, 102, 0.20)
+```
+
+               
+3. Test statistic: Binomial Test
+                   centered at 0.20
+                  
+                  Purple
+                  number of successes = 18
+                   
+                  Green
+                  number of successes = 20
+                   
+                  Red
+                  number of successes = 19
+                   
+                  Yellow
+                  number of successes = 20
+                   
+                  Orange
+                  number of successes = 25
+                  
+                  
+ 4. p-values:
+                  Purple
+                  p-value = 0.6216
+                   
+                  Green
+                  p-value = 1
+                   
+                  Red
+                  p-value = 0.8052
+                   
+                  Yellow
+                  p-value = 1
+                   
+                  Orange
+                  p-value = 0.2649
+
+
+5. Benjamin-Hochberg (BH) Correction:
+
+                  Purple
+                  p-value = 1
+                   
+                  Green
+                  p-value = 1
+                   
+                  Red
+                  p-value = 1
+                   
+                  Yellow
+                  p-value = 1
+                   
+                  Orange
+                  p-value = 1
+
+
+```{r}
+p.values <- c(0.6216, 1, 0.8052, 1, 0.2649)
+p.adjust(p.values, method = "BH")
+```
+
+
+ 6. Conclusion
+   For each color of skittles, there is virtually a 100% chance that the difference from the null hypothesis (that 20% of our sample would be orange) was due to chance alone. There is therefore no evidence to reject the null hypothesis that each color of Skittles is represented equally.
+
+
+```{r}
+skittles <- data.frame(skittle.color = c("Purple", "Green", "Red", "Yellow", "Orange"),
+    count = c(18, 20, 19, 20, 25))
+
+#Bar Plot
+ggplot(skittles, aes(skittle.color, count)) + geom_col()
+skittle.bar<- ggplot(skittles, aes(x="", y=count, fill=skittle.color)) +
+  geom_bar(width = 1, stat = "identity") + xlab("Color") + ylab("Count")
+
+skittle.bar
+
+#Pie Chart
+skittle.pie <- skittle.bar + coord_polar("y", start=0)
+skittle.pie + scale_fill_manual(values=c("green", "orange", "purple", "red", "yellow"))
+```
+
