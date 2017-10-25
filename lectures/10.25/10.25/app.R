@@ -1,5 +1,7 @@
 #base code for every shiny app
 library(shiny)
+library(ggplot2)
+
 # controls everything the user will see - user interface!
 ui <- fluidPage(
   sliderInput(inputId = "slider1", label = "Select a value",
@@ -15,8 +17,8 @@ server <- function(input, output) {
   #everything you want to output needs to be stored in the output vector
   output$Histogram <-renderPlot({
     # generate random normal variables
-    random.variables <-rnorm(input$slider1)
-    hist(random.variables)
+    random.variables <- data.frame(numbers = rnorm(input$slider1))
+    ggplot(random.variables, aes(numbers)) +geom_histogram()
   })
 }
 
