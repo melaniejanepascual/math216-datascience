@@ -8,7 +8,7 @@ testYear <- 1977
 babynames %>%
   filter(year == testYear)
   arrange(year, prop)
-
+  select( p)
 
 
 #  select(sex, name, prop)
