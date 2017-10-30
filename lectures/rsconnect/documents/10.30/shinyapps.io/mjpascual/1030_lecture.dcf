@@ -1,0 +1,12 @@
+name: 1030_lecture
+title: 10.30 lecture
+username:
+account: mjpascual
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 230576
+bundleId: 1051657
+url: https://mjpascual.shinyapps.io/1030_lecture/
+when: 1509366469.82968
+asMultiple: FALSE
+asStatic: FALSE
