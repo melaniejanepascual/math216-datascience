@@ -5,16 +5,15 @@ library(shiny)
 ui <- fluidPage(
   sliderInput(inputId = "lifespan", label = "Choose a year", value = 1800, 
               min = 1800, max = 2017),
-  plotOutput("hist")
+  plotOutput("plot1")
   
 )
 
 server <- function(input, output) {
   histogram <- eventReactive(input$lifespan, {
-    hist(rnorm(input$num))
+    output$hist <- renderPlot(plot(mtcars$wt, mtcars$mpg))
   })
-  output$hist <- renderPlot(histogram())
-  
+
 }
 
 shinyApp(ui = ui, server = server)

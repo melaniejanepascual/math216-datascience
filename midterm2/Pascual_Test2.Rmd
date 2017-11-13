@@ -1,0 +1,54 @@
+---
+title: "midterm"
+author: "MJ Pascual"
+date: "November 12, 2017"
+output: html_document
+---
+
+## Question 1
+
+```{r setup}
+library(ggplot2)
+library(tidyverse)
+
+alex <- read.csv(file="alex.csv")
+year <- as.numeric(alex$year)
+income <- as.numeric(alex$income)
+
+ra.income <- alex %>%
+  filter(job == "research assistant") %>%
+  select(income)
+
+c.income <- alex %>%
+  filter(job == "consultant") %>%
+  select(income)
+
+i.income <- alex %>%
+  filter(job == "instructor") %>%
+  select(income)
+
+alex.income <- ggplot(data = alex) +
+    geom_area(aes(x = year, y = income, fill = job)) + 
+    labs(title="Alex's Income in Various Jobs", y="Income ($)")
+
+legend("bottom", c("consultant","instructor","research assistant"))
+
+```
+
+
+## Question 2
+Construct 2 side by side graphs representing the two baby names with the largest change in proportions of male to female usage over time. 
+```{r}
+library(babynames)
+
+## Find the 2 baby names with the largest proportions 
+
+## make a graph that shows the change in proportion 
+## Proportion x Year
+
+
+
+
+
+
+```
