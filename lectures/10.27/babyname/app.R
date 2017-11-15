@@ -8,7 +8,6 @@ ui <- fluidPage(
   sliderInput(inputId = "Year", label = "Select a range of dates",
               min = 1880, max = 2015, value = 1900),
   plotOutput(outputId = "BarChart")
-  
 )
 
 server <- function(input, output) {

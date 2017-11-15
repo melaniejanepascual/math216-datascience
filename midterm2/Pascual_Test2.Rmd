@@ -28,27 +28,52 @@ i.income <- alex %>%
   select(income)
 
 alex.income <- ggplot(data = alex) +
-    geom_area(aes(x = year, y = income, fill = job)) + 
-    labs(title="Alex's Income in Various Jobs", y="Income ($)")
+  geom_area(aes(x = year, y = income, fill = job)) + 
+  labs(title="Alex's Income in Various Jobs", y="Income ($)", x = "Year") +
+  theme(legend.position = "bottom") +
+    theme(legend.title=element_blank()) +
+  scale_fill_manual(values = c("#43A3E6", "#EDE322", "#C1270D"))
 
-legend("bottom", c("consultant","instructor","research assistant"))
 
 ```
 
 
 ## Question 2
-Construct 2 side by side graphs representing the two baby names with the largest change in proportions of male to female usage over time. 
+Construct 2 side by side graphs representing the two baby names with the largest change in proportions of male to female usage and female to male usage over time. 
 ```{r}
 library(babynames)
 
-## Find the 2 baby names with the largest proportions 
 
+##filter people with male amd female names 
+test <- babynames %>%
+  group_by(name) %>%
+  filter(sex %in% c("M","F")) %>%
+  mutate(both = )
+  arrange(name)
+
+
+males <- babynames %>%
+  filter(sex == "M") %>% 
+  group_by(name)
+  arrange(name) 
+
+
+females <- babynames %>%
+  filter(sex == "F") 
+
+## Find the 2 baby names with the largest proportions 
+    babynames.example %>%
+      filter(year == input$Year) %>%
+      mutate(rank = rank(-prop)) %>%
+      arrange(rank) %>%
+      filter(rank <= 10) %>%
+      ggplot(aes(x = reorder(name, prop), y = prop)) +
+        geom_bar(stat="identity", aes(fill = sex)) +
+        scale_fill_manual(values = c("Pink", "Blue")) +
+        xlab("Name")
+  
 ## make a graph that shows the change in proportion 
 ## Proportion x Year
-
-
-
-
 
 
 ```
