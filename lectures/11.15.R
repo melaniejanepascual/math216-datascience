@@ -43,7 +43,8 @@ multiple.model <- lm(Sagarin.Rating ~ Blocks + Steals + OREB, data = bball)
 summary(multiple.model)
   
 
-# 
+## find a variable that will help make your team better
+
   
   
   
