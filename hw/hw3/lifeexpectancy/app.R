@@ -6,7 +6,6 @@ library(plyr)
 library(dplyr)
 
 ## TO DO CHECKLIST:
-# FILL IN NA'S(mostly for population)
 # FIGURE OUT WHY IT ISNT PLOTTING
 
 ## create super data set, clean up everything else 
@@ -30,28 +29,36 @@ population <- rename(population, c("Total population" = "country"))
 draft <- join(lifespan, income)
 
 ## the super dataset
-final <- join(first, population)
+final <- join(draft, population)
 
+write.csv(final, file = "country.csv")
 
-# lifespan range is 1 - 85
-# income range 142 - 182668
+country <- read.csv("country.csv")
+
+## why is income decreasing!
+test <- country %>%
+  filter(year == 2010) %>%
+  select(country, income)
 
 
 # actiual program 
 ui <- fluidPage(
   sliderInput(inputId = "year", label = "Choose a year", value = 1800, 
-              min = 1800, max = 2017),
+              min = 1800, max = 2010, step = 10),
   plotOutput("plot1")
   
-)
+)  
 
 server <- function(input, output) {
-  output$plot1 <- renderPlot({
-    final %>%
-      filter(year == input$Year) %>%
-      ggplot(aes(x = income, y = lifespan)) +
-      geom_point(stat="identity", aes(fill = population))
-  })
+  scatter <- eventReactive(input$year, {
+                country %>%
+                  filter(year == input$year) %>%
+                  ggplot(aes(x = income, y = lifespan)) +
+                  geom_point(stat="identity", aes(size = population))
+            })
+  output$plot1 <- renderPlot(
+   scatter()
+  )
 
 }
 
