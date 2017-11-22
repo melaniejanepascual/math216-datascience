@@ -12,26 +12,31 @@ library(ggplot2)
 library(tidyverse)
 
 alex <- read.csv(file="alex.csv")
-year <- as.numeric(alex$year)
+year <- as.character(alex$year)
 income <- as.numeric(alex$income)
-
-ra.income <- alex %>%
-  filter(job == "research assistant") %>%
-  select(income)
 
 c.income <- alex %>%
   filter(job == "consultant") %>%
   select(income)
 
+c.year <- alex %>%
+  filter(job == "consultant") %>%
+  select(year)
+
+ra.income <- alex %>%
+  filter(job == "research assistant") %>%
+  select(income, year)
+  
 i.income <- alex %>%
   filter(job == "instructor") %>%
-  select(income)
-
+  select(income, year)
+  
 alex.income <- ggplot(data = alex) +
-  geom_area(aes(x = year, y = income, fill = job)) + 
+  geom_area(aes(x = c.year, y = c.income, fill = job), stat="identity") + 
   labs(title="Alex's Income in Various Jobs", y="Income ($)", x = "Year") +
-  theme(legend.position = "bottom") +
+    theme(legend.position = "bottom") +
     theme(legend.title=element_blank()) +
+    theme(plot.title = element_text(hjust = 0.5)) +
   scale_fill_manual(values = c("#43A3E6", "#EDE322", "#C1270D"))
 
 
@@ -42,38 +47,39 @@ alex.income <- ggplot(data = alex) +
 Construct 2 side by side graphs representing the two baby names with the largest change in proportions of male to female usage and female to male usage over time. 
 ```{r}
 library(babynames)
+library(dplyr)
+
+## testing with alex
+alex.f <- 
+  babynames %>%
+    filter(name == "Alex", sex == "M")
+
+alex.m <-
+  babynames %>%
+    filter(name == "Alex", sex == "F" )
+
+alex <- 
+  babynames %>%
+    filter(name == "Alex")
+
+play <- babynames %>% filter(name == "Alex") %>% 
+  ggplot(aes(y=prop, x=year, color =sex)) + geom_line() 
+
+ex <-ggplot(data = alex, mapping = aes(y=prop, x=year, color=sex)) + geom_line(babynames)+ facet_wrap(~name)
+
+recked <- ggplot(babynames, aes(y=prop, x=year, color=sex)) +
+  geom_line() 
 
 
-##filter people with male amd female names 
-test <- babynames %>%
-  group_by(name) %>%
-  filter(sex %in% c("M","F")) %>%
-  mutate(both = )
-  arrange(name)
-
-
-males <- babynames %>%
-  filter(sex == "M") %>% 
-  group_by(name)
-  arrange(name) 
-
-
-females <- babynames %>%
-  filter(sex == "F") 
-
-## Find the 2 baby names with the largest proportions 
-    babynames.example %>%
-      filter(year == input$Year) %>%
-      mutate(rank = rank(-prop)) %>%
-      arrange(rank) %>%
-      filter(rank <= 10) %>%
-      ggplot(aes(x = reorder(name, prop), y = prop)) +
-        geom_bar(stat="identity", aes(fill = sex)) +
-        scale_fill_manual(values = c("Pink", "Blue")) +
-        xlab("Name")
-  
-## make a graph that shows the change in proportion 
-## Proportion x Year
+babynames %>%
+    filter(year) %>%
+    mutate(rank = rank(-prop)) %>%
+    arrange(rank) %>%
+    filter(rank <= 10) %>%
+    ggplot(aes(x = reorder(name, prop), y = prop)) +
+    geom_bar(stat="identity", aes(fill = sex)) +
+    scale_fill_manual(values = c("Pink", "Blue")) +
+    xlab("Name")
 
 
 ```
